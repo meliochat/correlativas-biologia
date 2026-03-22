@@ -586,7 +586,7 @@ export default function App() {
             </div>
           ))}
 
-          <div className="hidden lg:flex ml-auto flex-col items-end gap-1">
+          <div className="flex flex-col items-center sm:items-end gap-1 w-full sm:w-auto sm:ml-auto mt-2 sm:mt-0">
             <p className="text-[11px] font-semibold" style={{ color: tk.textSub }}>
               Desarrollado por{" "}
               <a
