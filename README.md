@@ -2,7 +2,7 @@
 
 Mapa interactivo de materias correlativas para la Licenciatura en Ciencias Biológicas.
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 - **Ver estado** de cada materia: Sin cursar / Regularizada / Aprobada
 - **Marcar materias** haciendo click sobre cada tarjeta
@@ -13,7 +13,7 @@ Mapa interactivo de materias correlativas para la Licenciatura en Ciencias Biol�
 - **Persistencia** en localStorage (se guarda automáticamente)
 - **Prueba de Idioma** como requisito especial para 4º y 5º año
 
-## 🚀 Cómo correr el proyecto
+## Cómo correr el proyecto
 
 ```bash
 # Instalar dependencias
@@ -26,7 +26,7 @@ npm run dev
 npm run build
 ```
 
-## 📚 Materias incluidas
+## Materias incluidas
 
 ### Año 1
 - 1° C: Matemática, Química General, Introducción a la Biología
@@ -51,7 +51,7 @@ npm run build
 ### Especial
 - Prueba de Idioma (EXAG-143) – requerida para materias de 4° y 5° año
 
-## 🛠 Stack
+## Stack
 
 - React 18
 - Vite

@@ -1,14 +1,14 @@
 import { useState, useEffect, useCallback } from "react";
 import { MATERIAS } from "./data/materias";
 
-// constantes 
+// ─── constantes ──────────────────────────────────────────────────────────────
 const ESTADO = {
   SIN_CURSAR:   "sin_cursar",
   REGULARIZADA: "regularizada",
   APROBADA:     "aprobada",
 };
 
-// helpers
+// ─── helpers ──────────────────────────────────────────────────────────────────
 const cumple = (e, cond) => {
   if (cond === "regularizada") return e === ESTADO.REGULARIZADA || e === ESTADO.APROBADA;
   if (cond === "aprobada")     return e === ESTADO.APROBADA;
@@ -24,7 +24,7 @@ const calcProgress = (estados) => {
   return Math.round((aprobadas / total) * 100);
 };
 
-// TEMA: tokens de color según dark/light
+// ─── TEMA: tokens de color según dark/light ───────────────────────────────────
 const T = {
   dark: {
     appBg:         "linear-gradient(160deg,#04090f 0%,#050d12 60%,#04090f 100%)",
@@ -98,7 +98,7 @@ const T = {
   },
 };
 
-// MateriaCard
+// ─── MateriaCard ──────────────────────────────────────────────────────────────
 function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, tk }) {
   const cursar = puedesCursar(materia, estados);
 
@@ -129,13 +129,13 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
     },
     {
       e:      ESTADO.REGULARIZADA,
-      label:  "Regular",
+      label:  "Reg",
       title:  "Regularizada",
       active: "bg-amber-500 text-white",
     },
     {
       e:      ESTADO.APROBADA,
-      label:  "Aprobada",
+      label:  "Apr",
       title:  "Aprobada",
       active: "bg-emerald-500 text-white",
     },
@@ -154,9 +154,11 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
       onMouseEnter={() => onHover(materia.id)}
       onMouseLeave={() => onHover(null)}
     >
+      {/* Banda superior */}
       <div className={`h-1 w-full ${topBarClass}`} />
 
       <div className="p-3 space-y-2">
+        {/* Código + candado */}
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-mono tracking-wider" style={{ color: tk.textCode }}>
             {materia.id}
@@ -170,10 +172,12 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
           </span>
         </div>
 
+        {/* Nombre */}
         <p className="text-sm font-bold leading-snug min-h-[2.4rem]" style={{ color: tk.text }}>
           {materia.nombre}
         </p>
 
+        {/* Requisitos faltantes */}
         {!cursar && requisitos.filter(r => !r.ok).length > 0 && (
           <div className="space-y-0.5">
             {requisitos.filter(r => !r.ok).slice(0, 2).map(r => (
@@ -191,6 +195,7 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
           </div>
         )}
 
+        {/* Botones de estado */}
         <div className="flex gap-1 pt-1">
           {BOTONES.map(btn => (
             <button
@@ -215,7 +220,7 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
   );
 }
 
-// Columna cuatrimestre
+// ─── Columna cuatrimestre ─────────────────────────────────────────────────────
 function Columna({ titulo, materias, estados, onChange, hoveredId, onHover, tk }) {
   return (
     <div className="flex flex-col gap-3 w-full sm:w-[260px] sm:shrink-0">
@@ -243,7 +248,7 @@ function Columna({ titulo, materias, estados, onChange, hoveredId, onHover, tk }
   );
 }
 
-// App
+// ─── App ──────────────────────────────────────────────────────────────────────
 export default function App() {
   const [estados, setEstados] = useState(() => {
     try { return JSON.parse(localStorage.getItem("bio-correlativas-v2") || "{}"); }
@@ -300,6 +305,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: tk.appBg }}>
+
+      {/* Glows decorativos */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-60 -left-60 w-[500px] h-[500px] rounded-full"
           style={{ background: `radial-gradient(circle, ${tk.dot1.replace("0.035","0.15")}, transparent)`, opacity: 0.35 }} />
@@ -309,12 +316,15 @@ export default function App() {
           style={{ backgroundImage: "radial-gradient(circle at 1px 1px, #94a3b8 1px, transparent 0)", backgroundSize: "28px 28px" }} />
       </div>
 
+      {/* ── HEADER ─────────────────────────────────────────── */}
       <header
         className="sticky top-0 z-40 border-b backdrop-blur-xl"
         style={{ background: tk.headerBg, borderColor: tk.headerBorder }}
       >
+        {/* Fila 1: logo + progreso + tema + reset */}
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 pt-2.5 pb-1.5 flex items-center gap-3 flex-wrap">
 
+          {/* Logo */}
           <div className="flex items-center gap-2 shrink-0">
             <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center text-sm border border-emerald-500/30"
               style={{ background: "rgba(16,185,129,0.1)" }}>
@@ -330,6 +340,7 @@ export default function App() {
             </div>
           </div>
 
+          {/* Progreso */}
           <div className="flex items-center gap-2 flex-1 min-w-[120px] max-w-[240px]">
             <div className="flex-1 h-1.5 rounded-full overflow-hidden" style={{ background: tk.progressTrack }}>
               <div
@@ -344,8 +355,10 @@ export default function App() {
             <span className="text-xs font-black text-emerald-500 tabular-nums w-8 text-right">{progress}%</span>
           </div>
 
+          {/* Spacer */}
           <div className="flex-1 hidden sm:block" />
 
+          {/* Toggle tema */}
           <button
             onClick={() => setDarkMode(d => !d)}
             className="w-8 h-8 rounded-xl flex items-center justify-center text-base transition-all border"
@@ -359,6 +372,7 @@ export default function App() {
             {darkMode ? "☀️" : "🌙"}
           </button>
 
+          {/* Reset */}
           <button
             onClick={resetAll}
             className="text-xs font-bold px-2.5 py-1.5 rounded-xl border transition-all"
@@ -371,7 +385,10 @@ export default function App() {
           </button>
         </div>
 
+        {/* Fila 2: stats + filtros */}
         <div className="max-w-screen-xl mx-auto px-4 sm:px-6 pb-2 flex items-center gap-3 flex-wrap">
+
+          {/* Stats */}
           <div className="flex gap-3 sm:gap-5 text-xs">
             <span>
               <b className="text-emerald-500 font-black">{stats.aprobadas}</b>
@@ -389,6 +406,7 @@ export default function App() {
 
           <div className="flex-1" />
 
+          {/* Filtros */}
           <div
             className="flex gap-1 p-1 rounded-xl border"
             style={{ background: tk.filterBg, borderColor: tk.filterBorder }}
@@ -415,6 +433,7 @@ export default function App() {
         </div>
       </header>
 
+      {/* ── PRUEBA DE IDIOMA ──────────────────────────────── */}
       <div className="max-w-screen-xl mx-auto px-4 sm:px-6 pt-4">
         <div
           className="rounded-2xl border p-3 sm:p-4 flex items-center gap-3 flex-wrap"
@@ -467,6 +486,7 @@ export default function App() {
         </div>
       </div>
 
+      {/* ── GRILLA ───────────────────────────────────────── */}
       <main className="max-w-screen-xl mx-auto px-4 sm:px-6 pb-20 pt-6">
         <div className="space-y-10">
           {ANIOS.map(anio => {
@@ -480,6 +500,7 @@ export default function App() {
 
             return (
               <section key={anio}>
+                {/* Header año */}
                 <div className="flex items-center gap-3 mb-4">
                   <div
                     className="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-black border shrink-0"
@@ -502,6 +523,7 @@ export default function App() {
                   <div className="flex-1 h-px"
                     style={{ background: `linear-gradient(90deg, ${tk.divider}, transparent)` }} />
                 </div>
+
                 <div className="flex flex-col sm:flex-row sm:justify-center gap-4 sm:gap-8">
                   {c1.length > 0 && (
                     <Columna
@@ -515,6 +537,7 @@ export default function App() {
                     />
                   )}
 
+                  {/* Divisor: horizontal en móvil, vertical en desktop */}
                   {c1.length > 0 && c2.length > 0 && (
                     <>
                       <div className="block sm:hidden h-px w-full" style={{ background: tk.divider }} />
@@ -541,6 +564,7 @@ export default function App() {
         </div>
       </main>
 
+      {/* ── FOOTER ───────────────────────────────────────── */}
       <footer
         className="border-t px-4 sm:px-6 py-4 sm:py-5"
         style={{ background: tk.footerBg, borderColor: tk.footerBorder }}
@@ -562,9 +586,31 @@ export default function App() {
             </div>
           ))}
 
-          <p className="hidden lg:block ml-auto text-[10px] font-mono" style={{ color: tk.textMuted }}>
-            Botones — / Reg / Apr para cambiar el estado de cada materia
-          </p>
+          <div className="hidden lg:flex ml-auto flex-col items-end gap-1">
+            <p className="text-[11px] font-semibold" style={{ color: tk.textSub }}>
+              Desarrollado por{" "}
+              <a
+                href="https://github.com/meliochat"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-emerald-500 hover:underline font-bold"
+              >
+                @meliochat
+              </a>
+            </p>
+            <p className="text-[10px]" style={{ color: tk.textMuted }}>
+              Idea original:{" "}
+              <a
+                href="https://github.com/1Hagi/correlativas_lsi"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sky-500 hover:underline"
+              >
+                @1Hagi
+              </a>
+              {" "}· Lic. en Sistemas de Información
+            </p>
+          </div>
         </div>
       </footer>
     </div>
