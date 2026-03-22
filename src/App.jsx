@@ -129,13 +129,13 @@ function MateriaCard({ materia, estado, onChange, estados, isHovered, onHover, t
     },
     {
       e:      ESTADO.REGULARIZADA,
-      label:  "Reg",
+      label:  "Regular",
       title:  "Regularizada",
       active: "bg-amber-500 text-white",
     },
     {
       e:      ESTADO.APROBADA,
-      label:  "Apr",
+      label:  "Aprobada",
       title:  "Aprobada",
       active: "bg-emerald-500 text-white",
     },
